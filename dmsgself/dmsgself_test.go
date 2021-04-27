@@ -10,15 +10,15 @@ import (
 
 	"github.com/skycoin/dmsg/cipher"
 	"github.com/skycoin/dmsg/disc"
+	"github.com/skycoin/skywire/pkg/skyenv"
 )
 
 func TestClient_RemoteClients(t *testing.T) {
-	const snPort = uint16(22)
 	var snPK cipher.PubKey
-	pk := "0324579f003e6b4048bae2def4365e634d8e0e3054a20fc7af49daf2a179658557"
-	err := snPK.Set(pk)
+
+	// convert the pk from string to cipher.PubKey
+	err := snPK.Set(skyenv.DefaultSetupPK)
 	require.NoError(t, err)
-	dmsgDisc := "http://dmsg.discovery.skywire.skycoin.com"
 
 	t.Run("dmsg_self_test", func(t *testing.T) {
 
@@ -26,13 +26,13 @@ func TestClient_RemoteClients(t *testing.T) {
 		cPK, cSK := cipher.GenerateKeyPair()
 
 		// instantiate clients
-		initC := dmsg.NewClient(cPK, cSK, disc.NewHTTP(dmsgDisc), nil)
+		initC := dmsg.NewClient(cPK, cSK, disc.NewHTTP(skyenv.DefaultDmsgDiscAddr), nil)
 		go initC.Serve(context.Background())
 
 		time.Sleep(time.Second)
 
 		// dial responder via DMSG
-		initTp, err := initC.DialStream(context.Background(), dmsg.Addr{PK: snPK, Port: snPort})
+		initTp, err := initC.DialStream(context.Background(), dmsg.Addr{PK: snPK, Port: skyenv.DmsgSetupPort})
 		require.NoError(t, err)
 
 		// close stream
