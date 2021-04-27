@@ -32,7 +32,7 @@ func TestSkywireSelf(t *testing.T) {
 	t.Run("skywire_services_test", func(t *testing.T) {
 		pk, sk := cipher.GenerateKeyPair()
 		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			require.NoError(t, json.NewEncoder(w).Encode(NextNonceResponse{Edge: pk, NextNonce: 1}))
+			require.NoError(t, json.NewEncoder(w).Encode(&NextNonceResponse{Edge: pk, NextNonce: 1}))
 		}))
 		defer srv.Close()
 
@@ -82,7 +82,11 @@ func TestSkywireSelf(t *testing.T) {
 			require.NoError(t, os.RemoveAll("local"))
 		}()
 
-		_, ok := visor.NewVisor(&conf, restart.CaptureContext())
+		v, ok := visor.NewVisor(&conf, restart.CaptureContext())
 		require.True(t, ok)
+
+		err := v.Close()
+		require.NoError(t, err)
 	})
+
 }
