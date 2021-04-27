@@ -5,9 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/skycoin/dmsg"
-	"github.com/skycoin/skycoin/src/util/logging"
 	"github.com/stretchr/testify/require"
 
 	"github.com/skycoin/dmsg/cipher"
@@ -15,7 +13,6 @@ import (
 )
 
 func TestClient_RemoteClients(t *testing.T) {
-	logging.SetLevel(logrus.ErrorLevel)
 	const snPort = uint16(22)
 	var snPK cipher.PubKey
 	pk := "0324579f003e6b4048bae2def4365e634d8e0e3054a20fc7af49daf2a179658557"
