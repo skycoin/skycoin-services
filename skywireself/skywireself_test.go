@@ -140,15 +140,18 @@ func TestSkywireSelf(t *testing.T) {
 		require.Equal(t, 1, len(workingT))
 	})
 
-	// t.Run("vpn_client_test", func(t *testing.T) {
+	t.Run("vpn_client_test", func(t *testing.T) {
 
-	// 	// Stary vpn-client
-	// 	// err := v.StartApp(skyenv.VPNClientName)
-	// 	// require.NoError(t, err)
+		// Stary vpn-client
+		err := v.StartApp(skyenv.VPNClientName)
+		require.NoError(t, err)
 
-	// 	// err = v.StopApp(skyenv.VPNClientName)
-	// 	// require.NoError(t, err)
-	// })
+		err = v.StopApp(skyenv.VPNClientName)
+		require.NoError(t, err)
+		defer func() {
+			require.NoError(t, os.RemoveAll("apps"))
+		}()
+	})
 }
 
 func compare(slice []uuid.UUID, id uuid.UUID) bool {

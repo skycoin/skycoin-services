@@ -11,18 +11,15 @@
 # shellcheck source=./build.conf
 source "$(pwd)/build.conf"
 
+ARCH=$(go env GOHOSTARCH)
+OS=$(go env GOHOSTOS)
 ## Variables.
-
-# Needed tools to run this script, space separated
-# On arch/manjaro, the qemu-aarch64-static dependency is satisfied by installing the 'qemu-arm-static' AUR package.
-NEEDED_TOOLS="rsync wget 7z cut awk sha256sum gzip tar e2fsck losetup resize2fs truncate sfdisk qemu-aarch64-static qemu-arm-static go"
-
 # Check if build variables were set
 # If the BOARD and ARCH variables are not set in the build command, it will build a skybian image for Orange Pi Prime by default
-if [ -z ${BOARD} ] || [ -z ${ARCH} ] ; then
-  BOARD=prime
-  ARCH=arm64
-fi
+# if [ -z ${BOARD} ] || [ -z ${ARCH} ] ; then
+#   BOARD=prime
+#   ARCH=arm64
+# fi
 
 
 # Output directory.
@@ -114,15 +111,26 @@ get_skywire()
   local _DST=${SKYWIRE_DIR}/skywire.tar.gz # Download destination file name.
 
   if [ ! -f "${_DST}" ] ; then
-    if [ ${BOARD} == rpi ] ; then
-      notice "Downloading package from ${SKYWIRE_ARMV7_DOWNLOAD_URL} to ${_DST}..."
-      wget -c "${SKYWIRE_ARMV7_DOWNLOAD_URL}" -O "${_DST}" || return 1
-    elif [ ${BOARD} == rpiw ] ; then
-      notice "Downloading package from ${SKYWIRE_ARMV6_DOWNLOAD_URL} to ${_DST}..."
-      wget -c "${SKYWIRE_ARMV6_DOWNLOAD_URL}" -O "${_DST}" || return 1
-    else
-      notice "Downloading package from ${SKYWIRE_ARM64_DOWNLOAD_URL} to ${_DST}..."
-      wget -c "${SKYWIRE_ARM64_DOWNLOAD_URL}" -O "${_DST}" || return 1
+    if [ ${OS} == darvin ] ; then
+      notice "Downloading package from ${SKYWIRE_DARVIN_AMD64_DOWNLOAD_URL} to ${_DST}..."
+      wget -c "${SKYWIRE_DARVIN_AMD64_DOWNLOAD_URL}" -O "${_DST}" || return 1
+    elif [ ${OS} == linux ] ; then
+      if [ ${ARCH} == amd64 ] ; then
+        notice "Downloading package from ${SKYWIRE_AMD64_DOWNLOAD_URL} to ${_DST}..."
+        wget -c "${SKYWIRE_AMD64_DOWNLOAD_URL}" -O "${_DST}" || return 1
+      elif [ ${ARCH} == 386 ] ; then
+        notice "Downloading package from ${SKYWIRE_386_DOWNLOAD_URL} to ${_DST}..."
+        wget -c "${SKYWIRE_386_DOWNLOAD_URL}" -O "${_DST}" || return 1
+      elif [ ${ARCH} == armv6 ] ; then
+        notice "Downloading package from ${SKYWIRE_ARMV6_DOWNLOAD_URL} to ${_DST}..."
+        wget -c "${SKYWIRE_ARMV6_DOWNLOAD_URL}" -O "${_DST}" || return 1
+      elif [ ${ARCH} == armv7 ] ; then
+        notice "Downloading package from ${SKYWIRE_ARMV7_DOWNLOAD_URL} to ${_DST}..."
+        wget -c "${SKYWIRE_ARMV7_DOWNLOAD_URL}" -O "${_DST}" || return 1
+      elif [ ${ARCH} == arm64 ] ; then
+        notice "Downloading package from ${SKYWIRE_ARM64_DOWNLOAD_URL} to ${_DST}..."
+        wget -c "${SKYWIRE_ARM64_DOWNLOAD_URL}" -O "${_DST}" || return 1
+      fi
     fi
   else
       info "Reusing package in ${_DST}"
