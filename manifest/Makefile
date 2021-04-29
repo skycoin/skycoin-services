@@ -10,6 +10,7 @@ GOGET=$(GOCMD) get
 BINARY_NAME=manifest
 MAIN=manifest.go
 CUSTOMEtYPES=manifestTypes.go
+MANIFESTUTIL=manifestUtil.go
 
 # CLI command and flags
 INIT=init
@@ -27,14 +28,14 @@ clean:
 		$(GOCLEAN)
 		rm -f $(BINARY_NAME)
 init:
-		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(INIT) 
+		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(MANIFESTUTIL) $(INIT) 
 
 commit:
-		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(COMMIT) 
+		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(MANIFESTUTIL) $(COMMIT) 
 
 commit-json:
-		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(COMMIT) $(PRINTJSON) 
+		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(MANIFESTUTIL) $(COMMIT) $(PRINTJSON) 
 
 commit-meta:
-		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(COMMIT) $(PRINTJSON) $(META) 
+		$(GORUN) $(MAIN) $(CUSTOMEtYPES) $(MANIFESTUTIL) $(COMMIT) $(PRINTJSON) $(META) 
  

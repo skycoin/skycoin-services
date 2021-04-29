@@ -258,7 +258,7 @@ func getTestDataManifest() *[]ManifestFile {
 		os.Exit(1)
 	}
 
-	return &manifestOuputBody.ManifestBody.FileList
+	return &manifestOuputBody.ManifestBody.ManifestFileList
 }
 
 func changeDir(path string) {
@@ -305,7 +305,8 @@ func testManifestOutput(t *testing.T, manifestFileDirList *[]ManifestFile, fList
 	var outPutFileNames []string
 	var outPutDirNames []string
 	var outPutFileHashList []FileHashList
-
+	var testFileHashList []FileHashList
+	var chunkHash [][]byte
 	for _, filedir := range *manifestFileDirList {
 		if filedir.FileName != nil {
 			manifestFileList = append(manifestFileList, filedir)
@@ -326,6 +327,15 @@ func testManifestOutput(t *testing.T, manifestFileDirList *[]ManifestFile, fList
 	var dirNamesTest []string
 	var fileNamesTest []string
 
+	for i, fh := range (*fList).filesHashlist {
+		file := (*fList).filesChunksList[i]
+		for _, hs := range file {
+			chunkHash = append(chunkHash, hs.Hash)
+		}
+		testFileHashList = append(testFileHashList, FileHashList{fh, chunkHash})
+		chunkHash = nil
+	}
+
 	for _, filename := range (*fList).fileNames {
 		_, fn := filepath.Split(filename)
 		fileNamesTest = append(fileNamesTest, fn)
@@ -341,5 +351,5 @@ func testManifestOutput(t *testing.T, manifestFileDirList *[]ManifestFile, fList
 	}
 	require.Equal(t, fileNamesTest, outPutFileNames, "The two file name list should have the same content.")
 	require.Equal(t, dirNamesTest, outPutDirNames, "The two directory name list should have the same content.")
-	require.Equal(t, (*fList).filesHashlist, outPutFileHashList, "The two hash list should have the same content.")
+	require.Equal(t, testFileHashList, outPutFileHashList, "The two hash list should have the same content.")
 }
