@@ -17,3 +17,6 @@ endif
 test: ## Run tests
 	-go clean -testcache &>/dev/null
 	${OPTS} go test ${TEST_OPTS} ./...
+
+build-vpn-client:
+	./build.sh
