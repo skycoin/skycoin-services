@@ -1,6 +1,6 @@
 module github.com/skycoin/skycoin-services
 
-go 1.13
+go 1.16
 
 require (
 	github.com/aeden/traceroute v0.0.0-20210211061815-03f5f7cb7908

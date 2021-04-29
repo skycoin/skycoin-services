@@ -9,6 +9,7 @@ github.com/StackExchange/wmi
 # github.com/VictoriaMetrics/metrics v1.12.3
 github.com/VictoriaMetrics/metrics
 # github.com/aeden/traceroute v0.0.0-20210211061815-03f5f7cb7908
+## explicit
 github.com/aeden/traceroute
 # github.com/anacrolix/dht/v2 v2.8.0
 github.com/anacrolix/dht/v2
@@ -18,6 +19,7 @@ github.com/anacrolix/envpprof
 # github.com/anacrolix/go-libutp v1.0.4
 github.com/anacrolix/go-libutp
 # github.com/anacrolix/log v0.8.0
+## explicit
 github.com/anacrolix/log
 # github.com/anacrolix/missinggo v1.2.1
 github.com/anacrolix/missinggo
@@ -53,6 +55,7 @@ github.com/anacrolix/stm/stmutil
 # github.com/anacrolix/sync v0.2.0
 github.com/anacrolix/sync
 # github.com/anacrolix/torrent v1.25.1
+## explicit
 github.com/anacrolix/torrent
 github.com/anacrolix/torrent/bencode
 github.com/anacrolix/torrent/common
@@ -108,12 +111,14 @@ github.com/google/btree
 # github.com/google/uuid v1.2.0
 github.com/google/uuid
 # github.com/gorilla/mux v1.8.0
+## explicit
 github.com/gorilla/mux
 # github.com/gorilla/websocket v1.4.2
 github.com/gorilla/websocket
 # github.com/huandu/xstrings v1.3.2
 github.com/huandu/xstrings
 # github.com/jaypipes/ghw v0.7.0
+## explicit
 github.com/jaypipes/ghw
 github.com/jaypipes/ghw/pkg/baseboard
 github.com/jaypipes/ghw/pkg/bios
@@ -241,6 +246,7 @@ github.com/shurcooL/sanitized_anchor_name
 # github.com/sirupsen/logrus v1.7.0
 github.com/sirupsen/logrus
 # github.com/skycoin/dmsg v0.0.0-20210329160412-4e25fc9ad26c
+## explicit
 github.com/skycoin/dmsg
 github.com/skycoin/dmsg/cipher
 github.com/skycoin/dmsg/disc
@@ -252,6 +258,7 @@ github.com/skycoin/dmsg/servermetrics
 # github.com/skycoin/noise v0.0.0-20180327030543-2492fe189ae6
 github.com/skycoin/noise
 # github.com/skycoin/skycoin v0.27.1
+## explicit
 github.com/skycoin/skycoin/src/cipher
 github.com/skycoin/skycoin/src/cipher/base58
 github.com/skycoin/skycoin/src/cipher/encoder
@@ -260,17 +267,20 @@ github.com/skycoin/skycoin/src/cipher/secp256k1-go
 github.com/skycoin/skycoin/src/cipher/secp256k1-go/secp256k1-go2
 github.com/skycoin/skycoin/src/util/logging
 # github.com/skycoin/skywire v0.4.1
+## explicit
 github.com/skycoin/skywire/pkg/skyenv
 # github.com/skycoin/yamux v0.0.0-20200803175205-571ceb89da9f
 github.com/skycoin/yamux
 # github.com/spaolacci/murmur3 v1.1.0
 github.com/spaolacci/murmur3
 # github.com/stretchr/testify v1.7.0
+## explicit
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/require
 # github.com/tinylib/msgp v1.1.5
 github.com/tinylib/msgp/msgp
 # github.com/urfave/cli/v2 v2.3.0
+## explicit
 github.com/urfave/cli/v2
 # github.com/valyala/fastrand v1.0.0
 github.com/valyala/fastrand
