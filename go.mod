@@ -6,6 +6,7 @@ require (
 	github.com/aeden/traceroute v0.0.0-20210211061815-03f5f7cb7908
 	github.com/anacrolix/log v0.8.0
 	github.com/anacrolix/torrent v1.25.1
+	github.com/google/uuid v1.2.0
 	github.com/gorilla/mux v1.8.0
 	github.com/jaypipes/ghw v0.7.0
 	github.com/skycoin/dmsg v0.0.0-20210329160412-4e25fc9ad26c

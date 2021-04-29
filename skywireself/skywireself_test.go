@@ -7,6 +7,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
 	"github.com/skycoin/dmsg"
@@ -38,6 +39,10 @@ func TestSkywireSelf(t *testing.T) {
 	}))
 	defer srv.Close()
 
+	var rPK cipher.PubKey
+	err := rPK.Set("020011587bf42a45b15f40d6783f5e5320a69a97a7298382103b754f2e3b6b63e9")
+	require.NoError(t, err)
+
 	conf := visorconfig.V1{
 		Common: &visorconfig.Common{
 			PK: pk,
@@ -46,7 +51,7 @@ func TestSkywireSelf(t *testing.T) {
 		// dmsg-discovery
 		Dmsg: &snet.DmsgConfig{
 			Discovery:     skyenv.DefaultDmsgDiscAddr,
-			SessionsCount: 10,
+			SessionsCount: 1,
 		},
 		STCP: &snet.STCPConfig{
 			LocalAddr: skyenv.DefaultSTCPAddr,
@@ -101,13 +106,12 @@ func TestSkywireSelf(t *testing.T) {
 		dmsg.Type,
 	}
 
+	var addedT []uuid.UUID
 	for _, tType := range transportTypes {
-		_, err := v.AddTransport(pk, tType, true, 0)
+		tr, err := v.AddTransport(rPK, tType, true, 0)
 		require.NoError(t, err)
+		addedT = append(addedT, tr.ID)
 	}
-	// pks := []cipher.PubKey{
-	// 	pk,
-	// }
 
 	t.Run("skywire_services_test", func(t *testing.T) {
 
@@ -121,20 +125,37 @@ func TestSkywireSelf(t *testing.T) {
 
 	t.Run("transport_types_test", func(t *testing.T) {
 
-		tps, err := v.DiscoverTransportsByPK(pk)
+		tps, err := v.DiscoverTransportsByPK(rPK)
 		require.NoError(t, err)
+
+		var workingT []uuid.UUID
+		t.Logf("%v", addedT)
 		for _, tp := range tps {
-			require.Equal(t, true, tp.IsUp)
+			if compare(addedT, tp.Entry.ID) {
+				t.Logf("%v", tp)
+				require.Equal(t, true, tp.IsUp)
+				workingT = append(workingT, tp.Entry.ID)
+			}
 		}
+		require.Equal(t, 1, len(workingT))
 	})
 
-	t.Run("vpn_client_test", func(t *testing.T) {
+	// t.Run("vpn_client_test", func(t *testing.T) {
 
-		// Stary vpn-client
-		err := v.StartApp(skyenv.VPNClientName)
-		require.NoError(t, err)
+	// 	// Stary vpn-client
+	// 	// err := v.StartApp(skyenv.VPNClientName)
+	// 	// require.NoError(t, err)
 
-		err = v.StopApp(skyenv.VPNClientName)
-		require.NoError(t, err)
-	})
+	// 	// err = v.StopApp(skyenv.VPNClientName)
+	// 	// require.NoError(t, err)
+	// })
+}
+
+func compare(slice []uuid.UUID, id uuid.UUID) bool {
+	for _, item := range slice {
+		if item == id {
+			return true
+		}
+	}
+	return false
 }
