@@ -1,21 +1,25 @@
 package skywireself
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
 	"github.com/skycoin/dmsg"
 	"github.com/skycoin/dmsg/cipher"
+	"github.com/skycoin/dmsg/disc"
 	"github.com/skycoin/skycoin/src/util/logging"
 	"github.com/skycoin/skywire/pkg/app/launcher"
 	"github.com/skycoin/skywire/pkg/restart"
 	"github.com/skycoin/skywire/pkg/routing"
+	"github.com/skycoin/skywire/pkg/servicedisc"
 	"github.com/skycoin/skywire/pkg/skyenv"
 	"github.com/skycoin/skywire/pkg/snet"
 	"github.com/skycoin/skywire/pkg/snet/directtp/tptypes"
@@ -39,6 +43,9 @@ func TestSkywireSelf(t *testing.T) {
 	}))
 	defer srv.Close()
 
+	dmsgDiscAddr := skyenv.DefaultDmsgDiscAddr
+	serviceDiscAddr := skyenv.DefaultServiceDiscAddr
+
 	var rPK cipher.PubKey
 	err := rPK.Set("020011587bf42a45b15f40d6783f5e5320a69a97a7298382103b754f2e3b6b63e9")
 	require.NoError(t, err)
@@ -50,7 +57,7 @@ func TestSkywireSelf(t *testing.T) {
 		},
 		// dmsg-discovery
 		Dmsg: &snet.DmsgConfig{
-			Discovery:     skyenv.DefaultDmsgDiscAddr,
+			Discovery:     dmsgDiscAddr,
 			SessionsCount: 1,
 		},
 		STCP: &snet.STCPConfig{
@@ -86,7 +93,7 @@ func TestSkywireSelf(t *testing.T) {
 			},
 			Discovery: &visorconfig.V1AppDisc{
 				UpdateInterval: visorconfig.Duration(skyenv.AppDiscUpdateInterval),
-				ServiceDisc:    skyenv.DefaultServiceDiscAddr,
+				ServiceDisc:    serviceDiscAddr,
 			},
 		},
 	}
@@ -117,10 +124,27 @@ func TestSkywireSelf(t *testing.T) {
 
 		eSum, err := v.ExtraSummary()
 		require.NoError(t, err)
-
 		require.Equal(t, http.StatusOK, eSum.Health.TransportDiscovery)
 		require.Equal(t, http.StatusOK, eSum.Health.AddressResolver)
 
+		// to check if dmsg discovery is working
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+		defer cancel()
+		_, err = disc.NewHTTP(dmsgDiscAddr).AvailableServers(ctx)
+		require.NoError(t, err)
+
+		// to check if service discovery is working
+		conf := servicedisc.Config{
+			Type:     servicedisc.ServiceTypeVisor,
+			PK:       pk,
+			SK:       sk,
+			Port:     uint16(5505),
+			DiscAddr: serviceDiscAddr,
+		}
+
+		log := logging.MustGetLogger("appdisc")
+		_, err = servicedisc.NewClient(log, conf).Services(ctx)
+		require.NoError(t, err)
 	})
 
 	t.Run("transport_types_test", func(t *testing.T) {
@@ -129,10 +153,8 @@ func TestSkywireSelf(t *testing.T) {
 		require.NoError(t, err)
 
 		var workingT []uuid.UUID
-		t.Logf("%v", addedT)
 		for _, tp := range tps {
 			if compare(addedT, tp.Entry.ID) {
-				t.Logf("%v", tp)
 				require.Equal(t, true, tp.IsUp)
 				workingT = append(workingT, tp.Entry.ID)
 			}
