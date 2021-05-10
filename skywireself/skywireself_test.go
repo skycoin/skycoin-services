@@ -2,9 +2,7 @@ package skywireself
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
-	"net/http/httptest"
 	"os"
 	"testing"
 	"time"
@@ -38,10 +36,6 @@ type Nonce uint64
 
 func TestSkywireSelf(t *testing.T) {
 	pk, sk := cipher.GenerateKeyPair()
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		require.NoError(t, json.NewEncoder(w).Encode(&NextNonceResponse{Edge: pk, NextNonce: 1}))
-	}))
-	defer srv.Close()
 
 	dmsgDiscAddr := skyenv.DefaultDmsgDiscAddr
 	serviceDiscAddr := skyenv.DefaultServiceDiscAddr
