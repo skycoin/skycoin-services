@@ -91,6 +91,9 @@ github.com/elliotchance/orderedmap
 github.com/ghodss/yaml
 # github.com/glycerine/go-unsnap-stream v0.0.0-20210130063903-47dfef350d96
 github.com/glycerine/go-unsnap-stream
+# github.com/go-chi/chi v4.1.2+incompatible
+github.com/go-chi/chi
+github.com/go-chi/chi/middleware
 # github.com/go-ole/go-ole v1.2.4
 github.com/go-ole/go-ole
 github.com/go-ole/go-ole/oleutil
@@ -108,6 +111,8 @@ github.com/gorilla/mux
 github.com/gorilla/websocket
 # github.com/huandu/xstrings v1.3.2
 github.com/huandu/xstrings
+# github.com/inconshreveable/mousetrap v1.0.0
+github.com/inconshreveable/mousetrap
 # github.com/jaypipes/ghw v0.7.0
 github.com/jaypipes/ghw
 github.com/jaypipes/ghw/pkg/baseboard
@@ -131,6 +136,12 @@ github.com/jaypipes/ghw/pkg/unitutil
 github.com/jaypipes/ghw/pkg/util
 # github.com/jaypipes/pcidb v0.6.0
 github.com/jaypipes/pcidb
+# github.com/json-iterator/go v1.1.10
+github.com/json-iterator/go
+# github.com/konsorten/go-windows-terminal-sequences v1.0.2
+github.com/konsorten/go-windows-terminal-sequences
+# github.com/kz/discordrus v1.2.0
+github.com/kz/discordrus
 # github.com/lucas-clemente/quic-go v0.19.3
 github.com/lucas-clemente/quic-go
 github.com/lucas-clemente/quic-go/internal/ackhandler
@@ -150,8 +161,18 @@ github.com/lucas-clemente/quic-go/quictrace/pb
 github.com/marten-seemann/qtls
 # github.com/marten-seemann/qtls-go1-15 v0.1.1
 github.com/marten-seemann/qtls-go1-15
-# github.com/mitchellh/go-homedir v1.0.0
+# github.com/mattn/go-colorable v0.1.6
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.12
+github.com/mattn/go-isatty
+# github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b
+github.com/mgutz/ansi
+# github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
+# github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v1.0.1
+github.com/modern-go/reflect2
 # github.com/mschoch/smat v0.2.0
 github.com/mschoch/smat
 # github.com/philhofer/fwd v1.1.1
@@ -209,6 +230,8 @@ github.com/pion/webrtc/v2/internal/mux
 github.com/pion/webrtc/v2/internal/util
 github.com/pion/webrtc/v2/pkg/media
 github.com/pion/webrtc/v2/pkg/rtcerr
+# github.com/pires/go-proxyproto v0.3.3
+github.com/pires/go-proxyproto
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
@@ -221,10 +244,23 @@ github.com/russross/blackfriday/v2
 github.com/ryszard/goskiplist/skiplist
 # github.com/shurcooL/sanitized_anchor_name v1.0.0
 github.com/shurcooL/sanitized_anchor_name
+# github.com/sirupsen/logrus v1.4.2
+github.com/sirupsen/logrus
+github.com/sirupsen/logrus/hooks/syslog
+# github.com/skycoin/dmsg v0.0.0-20210329160412-4e25fc9ad26c
+github.com/skycoin/dmsg/buildinfo
+github.com/skycoin/dmsg/cmdutil
+github.com/skycoin/dmsg/discord
+github.com/skycoin/dmsg/httputil
 # github.com/skycoin/skycoin v0.27.1
 github.com/skycoin/skycoin/src/cipher/encoder
+github.com/skycoin/skycoin/src/util/logging
 # github.com/spaolacci/murmur3 v1.1.0
 github.com/spaolacci/murmur3
+# github.com/spf13/cobra v0.0.5
+github.com/spf13/cobra
+# github.com/spf13/pflag v1.0.3
+github.com/spf13/pflag
 # github.com/stretchr/testify v1.7.0
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/require
@@ -247,6 +283,7 @@ golang.org/x/crypto/curve25519
 golang.org/x/crypto/hkdf
 golang.org/x/crypto/internal/subtle
 golang.org/x/crypto/poly1305
+golang.org/x/crypto/ssh/terminal
 # golang.org/x/net v0.0.0-20210119194325-5f4716e94777
 golang.org/x/net/bpf
 golang.org/x/net/dns/dnsmessage
@@ -258,8 +295,11 @@ golang.org/x/sync/singleflight
 # golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c
 golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
+# golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1
+golang.org/x/term
 # golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
 golang.org/x/time/rate
 # golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
