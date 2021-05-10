@@ -38,9 +38,6 @@ github.com/alexflint/go-arg v1.3.0/go.mod h1:9iRbDxne7LcR/GSvEr7ma++GLpdIU1zrghf
 github.com/alexflint/go-scalar v1.0.0/go.mod h1:GpHzbCOZXEKMEcygYQ5n/aa4Aq84zbxjy3MxYW0gjYw=
 github.com/anacrolix/dht v0.0.0-20180412060941-24cbf25b72a4 h1:0yHJvFiGQhJ1gSHJOR8xzmnx45orEt7uiIB6guf0+zc=
 github.com/anacrolix/dht v0.0.0-20180412060941-24cbf25b72a4/go.mod h1:hQfX2BrtuQsLQMYQwsypFAab/GvHg8qxwVi4OJdR1WI=
-github.com/anacrolix/dht v0.0.0-20181129074040-b09db78595aa/go.mod h1:Ayu4t+5TsHQ07/P8XzRJqVofv7lU4R1ZTT7KW5+SPFA=
-github.com/anacrolix/dht v1.0.1 h1:a7zVMiZWfPiToAUbjMZYeI3UvmsDP3j8vH5EDIAjM9c=
-github.com/anacrolix/dht v1.0.1/go.mod h1:dtcIktBFD8YD/7ZcE5nQuuGGfLxcwa8+18mHl+GU+KA=
 github.com/anacrolix/dht/v2 v2.0.1/go.mod h1:GbTT8BaEtfqab/LPd5tY41f3GvYeii3mmDUK300Ycyo=
 github.com/anacrolix/dht/v2 v2.2.1-0.20191103020011-1dba080fb358/go.mod h1:d7ARx3WpELh9uOEEr0+8wvQeVTOkPse4UU6dKpv4q0E=
 github.com/anacrolix/dht/v2 v2.3.2-0.20200103043204-8dce00767ebd/go.mod h1:cgjKyErDnKS6Mej5D1fEqBKg3KwFF2kpFZJp3L6/fGI=
@@ -54,12 +51,10 @@ github.com/anacrolix/envpprof v1.1.0/go.mod h1:My7T5oSqVfEn4MD4Meczkw/f5lSIndGAK
 github.com/anacrolix/envpprof v1.1.1 h1:sHQCyj7HtiSfaZAzL2rJrQdyS7odLqlwO6nhk/tG/j8=
 github.com/anacrolix/envpprof v1.1.1/go.mod h1:My7T5oSqVfEn4MD4Meczkw/f5lSIndGAKu/0SM/rkf4=
 github.com/anacrolix/go-libutp v0.0.0-20180522111405-6baeb806518d/go.mod h1:beQSaSxwH2d9Eeu5ijrEnHei5Qhk+J6cDm1QkWFru4E=
-github.com/anacrolix/go-libutp v0.0.0-20180808010927-aebbeb60ea05/go.mod h1:POY/GPlrFKRxnOKH1sGAB+NBWMoP+sI+hHJxgcgWbWw=
 github.com/anacrolix/go-libutp v1.0.2/go.mod h1:uIH0A72V++j0D1nnmTjjZUiH/ujPkFxYWkxQ02+7S0U=
 github.com/anacrolix/go-libutp v1.0.4 h1:95sv09MoNQbgEJqJLrotglFnVBAiMx1tyl6xMAmnAgg=
 github.com/anacrolix/go-libutp v1.0.4/go.mod h1:8vSGX5g0b4eebsDBNVQHUXSCwYaN18Lnkse0hUW8/5w=
 github.com/anacrolix/log v0.0.0-20180412014343-2323884b361d/go.mod h1:sf/7c2aTldL6sRQj/4UKyjgVZBu2+M2z9wf7MmwPiew=
-github.com/anacrolix/log v0.1.0/go.mod h1:sf/7c2aTldL6sRQj/4UKyjgVZBu2+M2z9wf7MmwPiew=
 github.com/anacrolix/log v0.3.0/go.mod h1:lWvLTqzAnCWPJA08T2HCstZi0L1y2Wyvm3FJgwU9jwU=
 github.com/anacrolix/log v0.3.1-0.20190913000754-831e4ffe0174/go.mod h1:lWvLTqzAnCWPJA08T2HCstZi0L1y2Wyvm3FJgwU9jwU=
 github.com/anacrolix/log v0.3.1-0.20191001111012-13cede988bcd/go.mod h1:lWvLTqzAnCWPJA08T2HCstZi0L1y2Wyvm3FJgwU9jwU=
@@ -71,7 +66,6 @@ github.com/anacrolix/log v0.8.0 h1:C/fErGvLyoTbCk44F5HW2izl9cCkeO3mVTL1+ya0HT0=
 github.com/anacrolix/log v0.8.0/go.mod h1:s5yBP/j046fm9odtUTbHOfDUq/zh1W8OkPpJtnX0oQI=
 github.com/anacrolix/missinggo v0.0.0-20180522035225-b4a5853e62ff/go.mod h1:b0p+7cn+rWMIphK1gDH2hrDuwGOcbB6V4VXeSsEfHVk=
 github.com/anacrolix/missinggo v0.0.0-20180725070939-60ef2fbf63df/go.mod h1:kwGiTUTZ0+p4vAz3VbAI5a30t2YbvemcmspjKwrAz5s=
-github.com/anacrolix/missinggo v0.0.0-20181129073415-3237bf955fed/go.mod h1:IN+9GUe7OxKMIs/XeXEbT/rMUolmJzmlZiXHS7FwD/Y=
 github.com/anacrolix/missinggo v0.2.1-0.20190310234110-9fbdc9f242a8/go.mod h1:MBJu3Sk/k3ZfGYcS7z18gwfu72Ey/xopPFJJbTi5yIo=
 github.com/anacrolix/missinggo v1.1.0/go.mod h1:MBJu3Sk/k3ZfGYcS7z18gwfu72Ey/xopPFJJbTi5yIo=
 github.com/anacrolix/missinggo v1.1.2-0.20190815015349-b888af804467/go.mod h1:MBJu3Sk/k3ZfGYcS7z18gwfu72Ey/xopPFJJbTi5yIo=
@@ -110,7 +104,6 @@ github.com/anacrolix/tagflag v1.0.1/go.mod h1:gb0fiMQ02qU1djCSqaxGmruMvZGrMwSRei
 github.com/anacrolix/tagflag v1.1.0/go.mod h1:Scxs9CV10NQatSmbyjqmqmeQNwGzlNe0CMUMIxqHIG8=
 github.com/anacrolix/tagflag v1.1.1-0.20200411025953-9bb5209d56c2/go.mod h1:Scxs9CV10NQatSmbyjqmqmeQNwGzlNe0CMUMIxqHIG8=
 github.com/anacrolix/torrent v0.0.0-20180622074351-fefeef4ee9eb/go.mod h1:3vcFVxgOASslNXHdivT8spyMRBanMCenHRpe0u5vpBs=
-github.com/anacrolix/torrent v1.0.1/go.mod h1:ZYV1Z2Wx3jXYSh26mDvneAbk8XIUxfvoVil2GW962zY=
 github.com/anacrolix/torrent v1.7.1/go.mod h1:uvOcdpOjjrAq3uMP/u1Ide35f6MJ/o8kMnFG8LV3y6g=
 github.com/anacrolix/torrent v1.9.0/go.mod h1:jJJ6lsd2LD1eLHkUwFOhy7I0FcLYH0tHKw2K7ZYMHCs=
 github.com/anacrolix/torrent v1.11.0/go.mod h1:FwBai7SyOFlflvfEOaM88ag/jjcBWxTOqD6dVU/lKKA=
@@ -159,7 +152,6 @@ github.com/eapache/queue v1.1.0/go.mod h1:6eCeP0CKFpHLu8blIFXhExK/dRa7WDZfr6jVFP
 github.com/edsrzf/mmap-go v0.0.0-20170320065105-0bce6a688712/go.mod h1:YO35OhQPt3KJa3ryjFM5Bs14WD66h8eGKpfaBNrHW5M=
 github.com/edsrzf/mmap-go v1.0.0 h1:CEBF7HpRnUCSJgGUb5h1Gm7e3VkmVDrR8lvWVLtrOFw=
 github.com/edsrzf/mmap-go v1.0.0/go.mod h1:YO35OhQPt3KJa3ryjFM5Bs14WD66h8eGKpfaBNrHW5M=
-github.com/elgatito/upnp v0.0.0-20180711183757-2f244d205f9a/go.mod h1:afkYpY8JAIL4341N7Zj9xJ5yTovsg6BkWfBFlCzIoF4=
 github.com/elliotchance/orderedmap v1.2.0/go.mod h1:8hdSl6jmveQw8ScByd3AaNHNk51RhbTazdqtTty+NFw=
 github.com/elliotchance/orderedmap v1.3.0 h1:k6m77/d0zCXTjsk12nX40TkEBkSICq8T4s6R6bpCqU0=
 github.com/elliotchance/orderedmap v1.3.0/go.mod h1:8hdSl6jmveQw8ScByd3AaNHNk51RhbTazdqtTty+NFw=
@@ -271,7 +263,6 @@ github.com/huandu/xstrings v1.3.1/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq
 github.com/huandu/xstrings v1.3.2 h1:L18LIDzqlW6xN2rEkpdV8+oL/IXWJ1APd+vsdYy4Wdw=
 github.com/huandu/xstrings v1.3.2/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
-github.com/ipfs/go-ipfs v0.4.18/go.mod h1:iXzbK+Wa6eePj3jQg/uY6Uoq5iOwY+GToD/bgaRadto=
 github.com/jaypipes/ghw v0.7.0 h1:DO0qK9hESxkOTWyd/93hjYBRL7MdVSFqaXdcR7n4pVY=
 github.com/jaypipes/ghw v0.7.0/go.mod h1:+gR9bjm3W/HnFi90liF+Fj9GpCe/Dsibl9Im8KmC7c4=
 github.com/jaypipes/pcidb v0.6.0 h1:VIM7GKVaW4qba30cvB67xSCgJPTzkG8Kzw/cbs5PHWU=
@@ -342,7 +333,6 @@ github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1Cpa
 github.com/onsi/gomega v1.7.1/go.mod h1:XdKZgCCFLUoM/7CFJVPcG8C1xQ1AJ0vpAezJrB7JYyY=
 github.com/onsi/gomega v1.10.1 h1:o0+MgICZLuZ7xjH7Vx6zS/zcu93/BEp1VwkIW1mEXCE=
 github.com/onsi/gomega v1.10.1/go.mod h1:iN09h71vgCQne3DLsj+A5owkum+a2tYe+TOCB1ybHNo=
-github.com/op/go-logging v0.0.0-20160315200505-970db520ece7/go.mod h1:HzydrMdWErDVzsI23lYNej1Htcns9BCg93Dk0bBINWk=
 github.com/openzipkin/zipkin-go v0.1.1/go.mod h1:NtoC/o8u3JlF1lSlyPNswIbeQH9bJTmOf0Erfk+hxe8=
 github.com/openzipkin/zipkin-go v0.1.6/go.mod h1:QgAqvLzwWbR/WpD4A3cGpPtJrZXNIiJc5AZX7/PBEpw=
 github.com/philhofer/fwd v1.0.0/go.mod h1:gk3iGcWd9+svBvR0sR+KPcfE+RNWozjowpeBVG3ZVNU=
@@ -548,7 +538,6 @@ golang.org/x/net v0.0.0-20180906233101-161cd47e91fd/go.mod h1:mL1N/T3taQHkDXs73r
 golang.org/x/net v0.0.0-20181029044818-c44066c5c816/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20181106065722-10aee1819953/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20181114220301-adae6a3d119a/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
-golang.org/x/net v0.0.0-20181220203305-927f97764cc3/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20190108225652-1e06a53dbb7e/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20190125091013-d26f9f9a57f3/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20190213061140-3a22650c66bd/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
@@ -594,12 +583,10 @@ golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e/go.mod h1:STP8DvDyc/dI5b8T5h
 golang.org/x/sys v0.0.0-20181029174526-d69651ed3497/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20181116152217-5ac8a444bdc5/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20181122145206-62eef0e2fa9b/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
-golang.org/x/sys v0.0.0-20190102155601-82a175fd1598/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190228124157-a34e9553db1e/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190316082340-a2f829d7f35f/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
-golang.org/x/sys v0.0.0-20190318195719-6c81ef8f67ca/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20190422165155-953cdadca894/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20190502145724-3ef323f4f1fd/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
