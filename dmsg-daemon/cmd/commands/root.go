@@ -6,12 +6,15 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	proxyproto "github.com/pires/go-proxyproto"
 
 	"github.com/skycoin/dmsg/buildinfo"
 	"github.com/skycoin/dmsg/cmdutil"
+	"github.com/skycoin/skycoin-services/dmsg-daemon/cmd/internal"
 	"github.com/skycoin/skycoin-services/dmsg-daemon/cmd/internal/api"
 
 	"github.com/spf13/cobra"
@@ -42,10 +45,33 @@ var rootCmd = &cobra.Command{
 
 		log := sf.Logger()
 
-		a := api.New(log)
-
 		ctx, cancel := cmdutil.SignalContext(context.Background(), log)
 		defer cancel()
+
+		signalChan := make(chan os.Signal, 1)
+		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+
+		defer func() {
+			signal.Stop(signalChan)
+			cancel()
+		}()
+
+		go func() {
+			select {
+			case <-signalChan:
+				log.Printf("Got SIGINT/SIGTERM, exiting.")
+				cancel()
+				os.Exit(1)
+			case <-ctx.Done():
+				log.Printf("Done.")
+				os.Exit(1)
+			}
+		}()
+
+		go internal.Run(ctx, tick, os.Stdout)
+
+		a := api.New(log)
+
 		log.WithField("addr", addr).Info("Serving discovery API...")
 		go func() {
 			if err := listenAndServe(addr, a); err != nil {
