@@ -10,23 +10,21 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/skycoin/dmsg"
 	"github.com/skycoin/dmsg/buildinfo"
 	"github.com/skycoin/dmsg/cmdutil"
-	"github.com/skycoin/skycoin-services/dmsg-daemon/cmd/internal"
-	"github.com/skycoin/skycoin-services/dmsg-daemon/cmd/internal/api"
+	"github.com/skycoin/skycoin-services/cmd/dmsg-daemon/internal"
+	"github.com/skycoin/skycoin-services/cmd/dmsg-daemon/internal/api"
 
 	"github.com/spf13/cobra"
 )
 
-const defaultTick = 10 * time.Second
+const defaultTick = 60 * time.Second
 
 var (
-	sf          cmdutil.ServiceFlags
-	addr        string
-	csvPath     string
-	tick        time.Duration
-	dmsgClients []dmsg.Addr
+	sf      cmdutil.ServiceFlags
+	addr    string
+	csvPath string
+	tick    time.Duration
 )
 
 func init() {
@@ -82,7 +80,6 @@ var rootCmd = &cobra.Command{
 			}
 		}()
 		<-ctx.Done()
-
 	},
 }
 
