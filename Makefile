@@ -1,7 +1,10 @@
 .DEFAULT_GOAL := help
 .PHONY : check lint install-linters dep test build
 
+RFC_3339 := "+%Y-%m-%dT%H:%M:%SZ"
 VERSION := $(shell git describe --always)
+DATE := $(shell date -u $(RFC_3339))
+COMMIT := $(shell git rev-list -1 HEAD)
 
 BIN := ${PWD}/bin
 OPTS?=GO111MODULE=on
@@ -16,6 +19,17 @@ ifneq (,$(findstring 64,$(GOARCH)))
     TEST_OPTS:=$(TEST_OPTS) $(RACE_FLAG)
 endif
 
+DMSG_BASE := github.com/skycoin/dmsg
+BUILDINFO_PATH := $(DMSG_BASE)/buildinfo
+
+BUILDINFO_VERSION := -X $(BUILDINFO_PATH).version=$(VERSION)
+BUILDINFO_DATE := -X $(BUILDINFO_PATH).date=$(DATE)
+BUILDINFO_COMMIT := -X $(BUILDINFO_PATH).commit=$(COMMIT)
+
+BUILDINFO?=$(BUILDINFO_VERSION) $(BUILDINFO_DATE) $(BUILDINFO_COMMIT)
+
+BUILD_OPTS?="-ldflags=$(BUILDINFO)" -mod=vendor $(RACE_FLAG)
+BUILD_OPTS_DEPLOY?="-ldflags=$(BUILDINFO) -w -s"
 BUILD_OPTS?="-ldflags=$(BUILDINFO)"
 BUILD_OPTS_DEPLOY?="-ldflags=$(BUILDINFO) -w -s"
 
