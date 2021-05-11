@@ -1,0 +1,14 @@
+[Unit]
+Description=Tests dmsg transport
+Wants=network.target
+After=network.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+ExecStart=/usr/local/bin/dmsg-daemon -c CSVPATH
+Restart=on-faliure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
