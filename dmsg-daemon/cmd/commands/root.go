@@ -12,28 +12,19 @@ import (
 
 	"github.com/skycoin/dmsg"
 	"github.com/skycoin/dmsg/buildinfo"
-	"github.com/skycoin/dmsg/cipher"
 	"github.com/skycoin/dmsg/cmdutil"
 	"github.com/skycoin/skycoin-services/dmsg-daemon/cmd/internal"
 	"github.com/skycoin/skycoin-services/dmsg-daemon/cmd/internal/api"
-	"github.com/skycoin/skycoin/src/util/logging"
-	"github.com/skycoin/skywire/pkg/skyenv"
 
 	"github.com/spf13/cobra"
 )
 
 const defaultTick = 10 * time.Second
 
-var testClients = []string{
-	"020011587bf42a45b15f40d6783f5e5320a69a97a7298382103b754f2e3b6b63e9",
-	"02001728a88c27b6fa73ebc969dccdbcbd1d4393f267ea10fff2ed8d5eccaca0a4",
-	"02004a94f317f3a7f857b4531906e72a0691bf1853e07d17e6632e40240bb11ee1",
-	"02004aa9e2caea09fa20d9fb701737627e8df14a0c3ed082416f23857465982757",
-}
-
 var (
 	sf          cmdutil.ServiceFlags
 	addr        string
+	csvPath     string
 	tick        time.Duration
 	dmsgClients []dmsg.Addr
 )
@@ -43,6 +34,7 @@ func init() {
 
 	rootCmd.Flags().StringVarP(&addr, "addr", "a", ":9090", "address to bind to")
 	rootCmd.Flags().DurationVar(&tick, "entry-timeout", defaultTick, "discovery entry timeout")
+	rootCmd.Flags().StringVarP(&csvPath, "csvPath", "c", "dmsg-clients.csv", "path of csv file")
 }
 
 var rootCmd = &cobra.Command{
@@ -54,7 +46,6 @@ var rootCmd = &cobra.Command{
 		}
 
 		log := sf.Logger()
-		dmsgClients := test(log)
 
 		ctx, cancel := cmdutil.SignalContext(context.Background(), log)
 		defer cancel()
@@ -79,7 +70,7 @@ var rootCmd = &cobra.Command{
 			}
 		}()
 
-		go internal.Run(ctx, tick, os.Stdout, dmsgClients)
+		go internal.Run(ctx, tick, os.Stdout, csvPath, log)
 
 		a := api.NewApi(log)
 
@@ -112,24 +103,4 @@ func serve(addr string, handler http.Handler) error {
 		return err
 	}
 	return srv.Serve(ln)
-}
-
-func test(log *logging.Logger) []dmsg.Addr {
-	var snPK cipher.PubKey
-	// convert the pk from string to cipher.PubKey
-	err := snPK.Set(skyenv.DefaultSetupPK)
-	if err != nil {
-		log.Errorf("serve: %v", err)
-	}
-
-	dmsgClients = append(dmsgClients, dmsg.Addr{PK: snPK, Port: skyenv.DmsgSetupPort})
-	for _, c := range testClients {
-		var dcPK cipher.PubKey
-		err := dcPK.Set(c)
-		if err != nil {
-			log.Errorf("serve: %v", err)
-		}
-		dmsgClients = append(dmsgClients, dmsg.Addr{PK: dcPK})
-	}
-	return dmsgClients
 }
