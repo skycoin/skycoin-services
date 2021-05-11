@@ -17,7 +17,7 @@ func Run(ctx context.Context, tick time.Duration, out io.Writer) {
 		case <-ctx.Done():
 			log.Fatal()
 		case <-d.C:
-			err := ConnClient()
+			err := InitClients()
 			if err != nil {
 				log.Fatal()
 			}

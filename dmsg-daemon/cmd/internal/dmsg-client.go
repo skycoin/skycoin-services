@@ -2,7 +2,6 @@ package internal
 
 import (
 	"context"
-	"time"
 
 	"github.com/skycoin/dmsg"
 	"github.com/skycoin/dmsg/cipher"
@@ -10,8 +9,8 @@ import (
 	"github.com/skycoin/skywire/pkg/skyenv"
 )
 
-// ConnClient connects to dmsg clients
-func ConnClient() error {
+// InitClients connects to dmsg clients
+func InitClients() error {
 	var snPK cipher.PubKey
 
 	// convert the pk from string to cipher.PubKey
@@ -26,16 +25,16 @@ func ConnClient() error {
 	initC := dmsg.NewClient(cPK, cSK, disc.NewHTTP(skyenv.DefaultDmsgDiscAddr), nil)
 	go initC.Serve(context.Background())
 
-	time.Sleep(time.Second)
+	// time.Sleep(time.Second)
 
 	// dial responder via DMSG
-	initTp, err := initC.DialStream(context.Background(), dmsg.Addr{PK: snPK, Port: skyenv.DmsgSetupPort})
+	conn, err := initC.DialStream(context.Background(), dmsg.Addr{PK: snPK, Port: skyenv.DmsgSetupPort})
 	if err != nil {
 		return err
 	}
 
 	// close stream
-	err = initTp.Close()
+	err = conn.Close()
 	if err != nil {
 		return err
 	}

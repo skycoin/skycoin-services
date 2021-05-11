@@ -9,7 +9,6 @@ require (
 	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/jaypipes/ghw v0.7.0
-	github.com/pires/go-proxyproto v0.3.3
 	github.com/sirupsen/logrus v1.7.0
 	github.com/skycoin/dmsg v0.0.0-20210329160412-4e25fc9ad26c
 	github.com/skycoin/skycoin v0.27.1

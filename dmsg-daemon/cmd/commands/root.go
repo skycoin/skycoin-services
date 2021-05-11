@@ -10,8 +10,6 @@ import (
 	"syscall"
 	"time"
 
-	proxyproto "github.com/pires/go-proxyproto"
-
 	"github.com/skycoin/dmsg/buildinfo"
 	"github.com/skycoin/dmsg/cmdutil"
 	"github.com/skycoin/skycoin-services/dmsg-daemon/cmd/internal"
@@ -70,12 +68,12 @@ var rootCmd = &cobra.Command{
 
 		go internal.Run(ctx, tick, os.Stdout)
 
-		a := api.New(log)
+		a := api.NewApi(log)
 
 		log.WithField("addr", addr).Info("Serving discovery API...")
 		go func() {
-			if err := listenAndServe(addr, a); err != nil {
-				log.Errorf("ListenAndServe: %v", err)
+			if err := serve(addr, a); err != nil {
+				log.Errorf("serve: %v", err)
 				cancel()
 			}
 		}()
@@ -91,16 +89,14 @@ func Execute() {
 	}
 }
 
-func listenAndServe(addr string, handler http.Handler) error {
+func serve(addr string, handler http.Handler) error {
 	srv := &http.Server{Addr: addr, Handler: handler}
 	if addr == "" {
 		addr = ":http"
 	}
 	ln, err := net.Listen("tcp", addr)
-	proxyListener := &proxyproto.Listener{Listener: ln}
-	defer proxyListener.Close() // nolint:errcheck
 	if err != nil {
 		return err
 	}
-	return srv.Serve(proxyListener)
+	return srv.Serve(ln)
 }

@@ -230,8 +230,6 @@ github.com/pion/webrtc/v2/internal/mux
 github.com/pion/webrtc/v2/internal/util
 github.com/pion/webrtc/v2/pkg/media
 github.com/pion/webrtc/v2/pkg/rtcerr
-# github.com/pires/go-proxyproto v0.3.3
-github.com/pires/go-proxyproto
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
