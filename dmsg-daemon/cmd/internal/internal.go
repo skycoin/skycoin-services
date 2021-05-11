@@ -48,18 +48,16 @@ func DmsgClientTest(ctx context.Context, dmsgClients []dmsg.Addr) error {
 	for i, addr := range dmsgClients {
 		go func(addr dmsg.Addr, c *dmsg.Client, i int) {
 			err := ConnDmsgClient(ctx, addr, c)
-			log.Print(err)
-			log.Print(addr)
-
 			if err != nil {
 				clientStatuses[i] = clientStatus{
 					Pk:     addr.PK,
 					Online: false,
 				}
-			}
-			clientStatuses[i] = clientStatus{
-				Pk:     addr.PK,
-				Online: false,
+			} else {
+				clientStatuses[i] = clientStatus{
+					Pk:     addr.PK,
+					Online: true,
+				}
 			}
 			wg.Done()
 		}(addr, c, i)
@@ -70,7 +68,7 @@ func DmsgClientTest(ctx context.Context, dmsgClients []dmsg.Addr) error {
 	return nil
 }
 
-func ConnDmsgClient(ctx context.Context, addr dmsg.Addr, c *dmsg.Client) error {
+func ConnDmsgClient(ctx context.Context, addr dmsg.Addr, c *dmsg.Client) (err error) {
 
 	// dial responder via DMSG
 	conn, err := c.DialStream(ctx, addr)
@@ -86,5 +84,5 @@ func ConnDmsgClient(ctx context.Context, addr dmsg.Addr, c *dmsg.Client) error {
 
 	// close client
 	_ = c.Close() //nolint:errcheck
-	return nil
+	return
 }
