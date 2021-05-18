@@ -1,4 +1,4 @@
-package traceroute
+package traceroutetest
 
 import (
 	"encoding/json"

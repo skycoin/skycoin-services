@@ -1,4 +1,4 @@
-package traceroute
+package traceroutetest
 
 // Input traceroute settings.
 type Input struct {
