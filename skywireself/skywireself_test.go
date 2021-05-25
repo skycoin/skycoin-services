@@ -2,6 +2,8 @@ package skywireself
 
 import (
 	"context"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"testing"
@@ -14,13 +16,11 @@ import (
 	"github.com/skycoin/dmsg/cipher"
 	"github.com/skycoin/dmsg/disc"
 	"github.com/skycoin/skycoin/src/util/logging"
-	"github.com/skycoin/skywire/pkg/app/launcher"
 	"github.com/skycoin/skywire/pkg/restart"
-	"github.com/skycoin/skywire/pkg/routing"
 	"github.com/skycoin/skywire/pkg/servicedisc"
 	"github.com/skycoin/skywire/pkg/skyenv"
-	"github.com/skycoin/skywire/pkg/snet"
 	"github.com/skycoin/skywire/pkg/snet/directtp/tptypes"
+	"github.com/skycoin/skywire/pkg/syslog"
 	"github.com/skycoin/skywire/pkg/visor"
 	"github.com/skycoin/skywire/pkg/visor/visorconfig"
 )
@@ -37,60 +37,16 @@ type Nonce uint64
 func TestSkywireSelf(t *testing.T) {
 	pk, sk := cipher.GenerateKeyPair()
 
-	dmsgDiscAddr := skyenv.DefaultDmsgDiscAddr
-	serviceDiscAddr := skyenv.DefaultServiceDiscAddr
+	dmsgDiscAddr := skyenv.TestDmsgDiscAddr
+	serviceDiscAddr := skyenv.TestServiceDiscAddr
 
+	// TODO: make sure to setup linode after switching to prod
 	var rPK cipher.PubKey
-	err := rPK.Set("020011587bf42a45b15f40d6783f5e5320a69a97a7298382103b754f2e3b6b63e9")
+	// PK of visor on linode
+	err := rPK.Set("0359272a223ca2c988bd30cb91820f53e802f06120a45dc4c7fd91c1fd246f299b")
 	require.NoError(t, err)
 
-	conf := visorconfig.V1{
-		Common: &visorconfig.Common{
-			PK: pk,
-			SK: sk,
-		},
-		// dmsg-discovery
-		Dmsg: &snet.DmsgConfig{
-			Discovery:     dmsgDiscAddr,
-			SessionsCount: 1,
-		},
-		STCP: &snet.STCPConfig{
-			LocalAddr: skyenv.DefaultSTCPAddr,
-			PKTable:   nil,
-		},
-		// transport discovery
-		// address-resolver
-		Transport: &visorconfig.V1Transport{
-			Discovery:       skyenv.DefaultTpDiscAddr,
-			AddressResolver: skyenv.DefaultAddressResolverAddr,
-			LogStore: &visorconfig.V1LogStore{
-				Type: visorconfig.MemoryLogStore,
-			},
-			TrustedVisors: nil,
-		},
-		Routing: &visorconfig.V1Routing{
-			SetupNodes:         nil,
-			RouteFinder:        skyenv.DefaultRouteFinderAddr,
-			RouteFinderTimeout: 0,
-		},
-		// service discovery
-		Launcher: &visorconfig.V1Launcher{
-			LocalPath:  skyenv.DefaultAppLocalPath,
-			BinPath:    skyenv.DefaultAppBinPath,
-			ServerAddr: skyenv.DefaultAppSrvAddr,
-			Apps: []launcher.AppConfig{
-				{
-					Name:      skyenv.VPNClientName,
-					AutoStart: false,
-					Port:      routing.Port(skyenv.VPNClientPort),
-				},
-			},
-			Discovery: &visorconfig.V1AppDisc{
-				UpdateInterval: visorconfig.Duration(skyenv.AppDiscUpdateInterval),
-				ServiceDisc:    serviceDiscAddr,
-			},
-		},
-	}
+	conf := initConfig("skywire-config.json", t)
 
 	conf.SetLogger(logging.NewMasterLogger())
 
@@ -98,7 +54,7 @@ func TestSkywireSelf(t *testing.T) {
 		require.NoError(t, os.RemoveAll("local"))
 	}()
 
-	v, ok := visor.NewVisor(&conf, restart.CaptureContext())
+	v, ok := visor.NewVisor(conf, restart.CaptureContext())
 	require.True(t, ok)
 
 	transportTypes := []string{
@@ -109,7 +65,7 @@ func TestSkywireSelf(t *testing.T) {
 
 	var addedT []uuid.UUID
 	for _, tType := range transportTypes {
-		tr, err := v.AddTransport(rPK, tType, true, 0)
+		tr, err := v.AddTransport(rPK, tType, false, 0)
 		require.NoError(t, err)
 		addedT = append(addedT, tr.ID)
 	}
@@ -153,21 +109,44 @@ func TestSkywireSelf(t *testing.T) {
 				workingT = append(workingT, tp.Entry.ID)
 			}
 		}
-		require.Equal(t, 1, len(workingT))
+		require.Equal(t, 2, len(workingT))
 	})
 
 	t.Run("vpn_client_test", func(t *testing.T) {
 
-		// Stary vpn-client
-		err := v.StartApp(skyenv.VPNClientName)
+		err := v.SetAppPK(skyenv.VPNClientName, rPK)
 		require.NoError(t, err)
+
+		// Start vpn-client
+		err = v.StartApp(skyenv.VPNClientName)
+		require.NoError(t, err)
+
+		sum, err := v.GetAppConnectionsSummary(skyenv.VPNClientName)
+		require.NoError(t, err)
+
+		if err == nil && len(sum) > 0 {
+			require.Equal(t, true, sum[0].IsAlive)
+		}
 
 		err = v.StopApp(skyenv.VPNClientName)
 		require.NoError(t, err)
-		defer func() {
-			require.NoError(t, os.RemoveAll("apps"))
-		}()
 	})
+
+	t.Run("close_client", func(t *testing.T) {
+
+		for _, tType := range addedT {
+			err := v.RemoveTransport(tType)
+			require.NoError(t, err)
+		}
+		// _ = v.Close()
+	})
+
+	defer func() {
+		require.NoError(t, os.RemoveAll("apps"))
+		require.NoError(t, os.RemoveAll("dmsgpty"))
+		require.NoError(t, os.RemoveAll("transport_logs"))
+		require.NoError(t, os.RemoveAll("skywire-config.json"))
+	}()
 }
 
 func compare(slice []uuid.UUID, id uuid.UUID) bool {
@@ -177,4 +156,45 @@ func compare(slice []uuid.UUID, id uuid.UUID) bool {
 		}
 	}
 	return false
+}
+
+func initConfig(confPath string, t *testing.T) *visorconfig.V1 {
+	var r io.Reader
+	mLog := initLogger("skywire_selftest", "")
+	f, err := os.Open(confPath) //nolint:gosec
+	if err != nil {
+		require.NoError(t, err)
+	}
+	defer func() {
+		if err := f.Close(); err != nil {
+			require.NoError(t, err)
+		}
+	}()
+	r = f
+	raw, err := ioutil.ReadAll(r)
+	if err != nil {
+		require.NoError(t, err)
+	}
+
+	conf, err := visorconfig.Parse(mLog, confPath, raw)
+	if err != nil {
+		require.NoError(t, err)
+	}
+
+	return conf
+}
+
+func initLogger(tag string, syslogAddr string) *logging.MasterLogger {
+	log := logging.NewMasterLogger()
+
+	if syslogAddr != "" {
+		hook, err := syslog.SetupHook(syslogAddr, tag)
+		if err != nil {
+			log.WithError(err).Error("Failed to connect to the syslog daemon.")
+		} else {
+			log.AddHook(hook)
+			log.Out = ioutil.Discard
+		}
+	}
+	return log
 }
