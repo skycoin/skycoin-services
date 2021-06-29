@@ -6,6 +6,7 @@ import "time"
 type Result struct {
 	StartTime int64 `json:"start_time"`
 	Hops      []hop `json:"hops"`
+	Error     error `json:"error"`
 }
 
 // hop

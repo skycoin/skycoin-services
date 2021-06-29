@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 var (
@@ -18,10 +19,24 @@ var (
 	dmsgPort    = uint(80)
 	pk, sk      = cipher.GenerateKeyPair()
 	log         *logging.Logger
-	logFileName = "uuid.log"
+	logFileName = "dmsg-uuid.log"
+	logDir      = "."
 )
 
 func init() {
+	flag.StringVar(&dmsgDisc, "disc", dmsgDisc, "dmsg discovery address")
+	flag.UintVar(&dmsgPort, "port", dmsgPort, "dmsg port to serve from")
+	flag.StringVar(&logDir, "log-dir", logDir, "Path to log dir")
+	flag.Var(&sk, "sk", "dmsg secret key")
+	flag.Parse()
+
+	if _, err := os.Stat(logDir); os.IsNotExist(err) {
+		_ = os.Mkdir(logDir, 0777)
+	}
+
+	uuidFileName = filepath.Join(logDir, uuidFileName)
+	logFileName = filepath.Join(logDir, logFileName)
+
 	log = logging.MustGetLogger("dmsg_daemon")
 }
 
@@ -38,11 +53,6 @@ func configureLogger() {
 
 func main() {
 	configureLogger()
-
-	flag.StringVar(&dmsgDisc, "disc", dmsgDisc, "dmsg discovery address")
-	flag.UintVar(&dmsgPort, "port", dmsgPort, "dmsg port to serve from")
-	flag.Var(&sk, "sk", "dmsg secret key")
-	flag.Parse()
 
 	// Get daemon UUID
 	UUID := getUUID()

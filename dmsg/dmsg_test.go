@@ -3,10 +3,14 @@ package main
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/skycoin/dmsg/cipher"
 	"github.com/skycoin/dmsg/dmsghttp"
 	"github.com/skycoin/dmsg/dmsgtest"
+	dmsgtest2 "github.com/skycoin/skycoin-services/system-survey/cmd/dmsgtest"
+	"github.com/skycoin/skycoin-services/system-survey/cmd/httptest"
+	"github.com/skycoin/skycoin-services/system-survey/cmd/traceroutetest"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
@@ -16,19 +20,30 @@ var respLisPort = 1560
 
 func TestDaemon(t *testing.T) {
 	t.Cleanup(clearLogFile)
+
+	b, _ := json.Marshal(map[string]interface{}{
+		"apps": []string{"wget", "go", "git"},
+		"dmsg": &dmsgtest2.Input{
+			Tries:      3,
+			InitPort:   1563,
+			RespPort:   1563,
+			DiscServer: "local",
+		},
+		"traceroute": &traceroutetest.Input{
+			DestinationPort: 80,
+			DestinationIP:   "8.8.8.8",
+			Retries:         10,
+			MaxHops:         30,
+			MaxLatency:      10,
+		},
+		"http": &httptest.Input{Addr: "0.0.0.0:8888"},
+	})
+
 	c, pk := getHttpClient(t)
 	res, _ := c.Post(
 		fmt.Sprintf("http://%s:%d/system_survey", pk.String(), respLisPort),
 		"application/json",
-		&bytes.Buffer{},
-	)
-
-	assert.Equal(t, http.StatusOK, res.StatusCode)
-
-	res, _ = c.Post(
-		fmt.Sprintf("http://%s:%d/system_survey", pk.String(), respLisPort),
-		"application/json",
-		&bytes.Buffer{},
+		bytes.NewBuffer(b),
 	)
 
 	assert.Equal(t, http.StatusOK, res.StatusCode)

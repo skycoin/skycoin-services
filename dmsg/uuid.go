@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-var uuidFileName = ".uuid"
+var uuidFileName = ".dmsg-uuid"
 
 func getUUID() uuid.UUID {
 	// Trying to read existing uuid.
